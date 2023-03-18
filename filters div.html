@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3">
+        <span><%=TranslateResource("ID",204375) %> </span> 
+        <input type="number" class="form-control" id="txtKeyAppId" onkeyup="Search('TypeApproval');" placeholder='Enter Id'>
+      </div>
+      <div class="col-sm-3">
+        <span><%=TranslateResource("Customer No.",201537) %></span>
+        <input type="number" placeholder='Enter Customer No.' id="txtcustno" class="form-control" onkeyup="Search('TypeApproval');">
+      </div>
+      <div class="col-sm-3">
+        <span> <%=TranslateResource("Applicant",204376) %> </span>
+        <select class="form-control" id="ddlApplicant" name="Applicant" size="1" onchange="Search('TypeApproval');">
+          <option value="-1">Select Applicant</option>
+  </select>
+      </div>
+      <div class="col-sm-3">
+        <span> <%=TranslateResource("Make",201333) %> </span>
+        <select class="form-control" id="ddlMake" name="Make" size="1" onchange="Search('TypeApproval');">
+          <option value="-1">Select Make</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3">
+        <span><%=TranslateResource("Model",201334) %></span>
+        <select class="form-control" id="ddlModel" name="Model" size="1" onchange="Search('TypeApproval')">
+          <option value="-1">Select Model</option>
+  </select>
+      </div>
+      <div class="col-sm-3">
+        <span><%=TranslateResource("Repair Service Provider",204378) %></span> 
+        <select class="form-control" id="ddlRepairService" name="RepairServiceProvider" size="1" onchange="Search('TypeApproval');">
+          <option value="-1">Select Service Provider</option>
+  </select>
+      </div>
+      <div class="col-sm-3">
+        <span><%=TranslateResource("Status",200433) %> </span>
+        <select class="form-control" id="ddlstatus" name="staus" size="1" onchange="Search('TypeApproval');">
+          <option value="-1">Select Status</option>
+          <%
+              sql = "select distinct status  from _v_TypeApprovalSearch "
+              sql = sql & " where AgencyID =  " & tci_customer_id & " and status<>'' and status is not null "
+                  if isportal then 
+                      sql = sql & " and ((clientID=" & session("tci_clientID") & ") or (clientID=" & session("tci_ApplicantID") & "))"
+                  end if
+                   
+              sql=sql & " order by status asc"
+                  rs6.open sql,adb,adOpenForwardOnly,adLockReadOnly
+  do until rs6.eof
+  
+  Response.Write "<option value=" & rs6("status") & " >" & rs6("status") & "</option>"
+  rs6.Movenext '<- VERY VERY IMPORTANT!
+  loop
+  
+  rs6.close
+  set rs6= nothing
+  %>
+  </select>
+      </div>
+      <div class="col-sm-3">
+        <input type="button" style="margin-left:0" class="btn btn-primary" id="btnReset" value="Reset" onclick="SearchReset('TypeApproval');" />    </div>
+    </div>
+  </div>
+  
+  
